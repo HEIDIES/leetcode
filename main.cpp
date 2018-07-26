@@ -430,6 +430,41 @@ public:
         }
         return round(scale);
     }
+    
+    bool isValid(string s) {
+        int len = s.length();
+        if((len & 0x1) != 0)
+            return false;
+        if(len == 0)
+            return true;
+        vector<int> flag(len, 3);
+        int* _flag_bottom = &flag[0];
+        int* _flag_top = _flag_bottom + 1;
+        for(int i = 0; i < len; ++i){
+            if(s[i] == '('){
+                *_flag_top ++ = 0; 
+            }
+            else if(s[i] == '['){
+                *_flag_top ++ = 1;
+            }
+            else if(s[i] == '{'){
+                *_flag_top ++ = 2;
+            }
+            else if(s[i] == ')' && _flag_top[-1] == 0){
+                *--_flag_top;
+            }
+            else if(s[i] == ']' && _flag_top[-1] == 1){
+                *--_flag_top;
+            }
+            else if(s[i] == '}' && _flag_top[-1] == 2){
+                *--_flag_top;
+            }
+        }
+        if(_flag_top - _flag_bottom == 1)
+            return true;
+        else
+            return false;
+    }
 };
 
 int main() {
