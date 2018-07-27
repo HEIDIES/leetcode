@@ -465,6 +465,33 @@ public:
         else
             return false;
     }
+    
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        ListNode* ret = head;
+        for(int i = 0; i < n; ++ i){
+            head = head->next;
+        }
+        if(head == NULL)
+            return ret->next;
+        else
+            head = ret;
+        while(1){
+            ListNode* current = head;
+            for(int i = 0; i < n + 1; ++ i){
+                head = head->next;
+            }
+            if(head == NULL){
+                ListNode* cur_next = current->next;
+                current->next = cur_next->next;
+                cur_next = NULL;
+                break;
+            }
+            else{
+                head = current->next;
+            }
+        }
+        return ret;
+    }
 };
 
 int main() {
